@@ -1472,7 +1472,7 @@ def validate_refs(d, traveled, full_schema=None):
                     return False
         else:
             return False
-    for key in ["anyOf", "allOf"]:
+    for key in ["anyOf", "allOf", "oneOf"]:
         if key in d:
             for sch in d[key]:
                 if not validate_refs(sch, traveled, full_schema):

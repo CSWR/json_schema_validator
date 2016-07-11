@@ -37,3 +37,6 @@ If you try to instantiate an invalid json schema you will get this exception. If
 ## Tests
 
 ## External references
+
+## Notes
+The validator does **not** support (yet) the keyword format for strings schemas.

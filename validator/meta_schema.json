@@ -1,99 +1,70 @@
 {
   "definitions":{
-    "baseSchema":{
-      "type":"object",
+    "JSDoc":{
+      "type": "object",
       "properties":{
-        "title":{"type":"string"},
-        "description":{"type":"string"},
-        "default":{"type":"string"},
-        "$schema":{"type":"string"},
-        "$ref":{"type":"string"},
-        "id":{"type":"string"},
+        "id": {
+            "type": "string",
+            "format": "uri"
+        },
+        "$schema": {
+            "type": "string",
+            "format": "uri"
+        },
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "default": {
+
+        },
+
+        "definitions": {
+          "type": "object",
+          "additionalItems": {
+            "$ref": "#/definitions/JSDoc"
+          }
+        },
+
+        "type":{
+      "anyOf":[
+        {"$ref": "#/definitions/typename"},
+        {"type": "array",
+        "additionalItems":{
+          "$ref": "#/definitions/typename"
+        }}
+      ]
+    },
+
         "allOf":{
           "type":"array",
-          "items":{"$ref":"#/definitions/schema"}
+          "items":{"$ref":"#/definitions/JSch"}
         },
         "anyOf":{
           "type":"array",
-          "items":{"$ref":"#/definitions/schema"}
+          "items":{"$ref":"#/definitions/JSch"}
         },
         "not":{
           "type":"array",
-          "items":{"$ref":"#/definitions/schema"}
+          "items":{"$ref":"#/definitions/JSch"}
         },
         "oneOf":{
           "type":"array",
-          "items":{"$ref":"#/definitions/schema"}
+          "items":{"$ref":"#/definitions/JSch"}
         },
         "enum":{
           "type":"array"
         },
-        "definitions":{
-          "$ref":"#/definitions/definitions"
-        }
-      },
-      "additionalProperties": false
-    },
-    "objectSchema": {
-      "type": "object",
-      "additionalProperties":false,
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type": {"enum": ["object"]},
+
         "additionalProperties": {
           "oneOf": [
             {
               "type": "boolean"
             },
             {
-              "$ref": "#/definitions/schema"
+              "$ref": "#/definitions/JSDoc"
             }
           ]
         },
@@ -104,10 +75,16 @@
           "type": "integer"
         },
         "patternProperties": {
-          "$ref": "#/definitions/definitions"
+          "type": "object",
+          "additionalProperties":{
+            "$ref": "#/definitions/JSDoc"
+          }
         },
         "properties": {
-          "$ref": "#/definitions/definitions"
+          "type": "object",
+          "additionalProperties":{
+            "$ref": "#/definitions/JSDoc"
+          }
         },
         "required": {
           "type": "array",
@@ -116,212 +93,31 @@
           }
         },
         "dependencies": {
-          "type": "object",
-          "additionalProperties": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/schema"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              {
-                "type": "string"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "arraySchema":{
-      "type":"object",
-      "additionalProperties":false,
-      "properties":{
-        "title": {
-          "type": "string"
+          "$ref": "#/definitions/dep"
         },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type":{"enum":["array"]},
+
         "items":{
           "oneOf":[
-            {"$ref":"#/definitions/schema"},
+            {"$ref":"#/definitions/JSDoc"},
             {
               "type":"array",
               "items":{
-                "$ref":"#/definitions/schema"
-              }
+                "$ref":"#/definitions/JSDoc"
+              },
+              "minItems": 1
             }
           ]
         },
         "additionalItems":{"anyOf":[{"type":"boolean"}, {"$ref":"#/definitions/schema"}]},
         "minItems":{"type":"integer"},
         "maxItems":{"type":"integer"},
-        "uniqueItems":{"type":"boolean"}
-      }
-    },
-    "stringSchema":{
-      "type":"object",
-      "additionalProperties":false,
-      "properties":{
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type":{"enum":["string"]},
+        "uniqueItems":{"type":"boolean"},
+
         "minLength":{"type":"integer"},
         "maxLength":{"type":"integer"},
         "pattern":{"type":"string"},
-        "format":{"enum":["date-time","email","hostname","ipv4","ipv6","uri"]}
-      }
-    },
-    "integerSchema":{
-      "type":"object",
-      "additionalProperties":false,
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type": {
-          "enum": [
-            "integer"
-          ]
-        },
+        "format":{"enum":["date-time","email","hostname","ipv4","ipv6","uri"]},
+
         "multipleOf": {
           "type": "number"
         },
@@ -337,216 +133,27 @@
         "exclusiveMaximum": {
           "type": "boolean"
         }
-      }
+      },
+      "additionalProperties": false
     },
-    "numberSchema":{
-      "type":"object",
-      "additionalProperties":false,
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type": {
-          "enum": [
-            "number"
-          ]
-        },
-        "multipleOf": {
-          "type": "number"
-        },
-        "minimum": {
-          "type": "number"
-        },
-        "maximum": {
-          "type": "number"
-        },
-        "exclusiveMinimum": {
-          "type": "boolean"
-        },
-        "exclusiveMaximum": {
-          "type": "boolean"
-        }
-      }
+    "typename":{
+      "enum": ["string", "integer", "number", "boolean", "null", "array", "object"]
     },
-    "booleanSchema":{
-      "type":"object",
-      "additionalProperties":false,
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type": {
-          "enum": [
-            "boolean"
-          ]
-        }
-      }
-    },
-    "nullSchema":{
-      "type":"object",
-      "additionalProperties":false,
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "default": {
-          "type": "string"
-        },
-        "$schema": {
-          "type": "string"
-        },
-        "$ref": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "allOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "anyOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "not": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/schema"
-          }
-        },
-        "enum": {
-          "type": "array"
-        },
-        "definitions": {
-          "$ref": "#/definitions/definitions"
-        },
-        "type": {
-          "enum": [
-            "null"
-          ]
-        }
-      }
-    },
-    "schema":{
-      "anyOf":[
-        {"$ref":"#/definitions/baseSchema"},
-        {"$ref":"#/definitions/stringSchema"},
-        {"$ref":"#/definitions/objectSchema"},
-        {"$ref":"#/definitions/arraySchema"},
-        {"$ref":"#/definitions/numberSchema"},
-        {"$ref":"#/definitions/integerSchema"},
-        {"$ref":"#/definitions/booleanSchema"},
-        {"$ref":"#/definitions/nullSchema"}
-      ]
-    },
-    "definitions":{
+    "dep":{
       "type": "object",
-      "additionalProperties":{"$ref":"#/definitions/schema"}
+      "additionalProperties":{
+        "anyOf":[
+          {"$ref": "#/definitions/JSDoc"},
+          {"$ref": "#/definitions/depArr"}
+        ]
+      }
+    },
+    "depArr": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
-  "$ref":"#/definitions/schema"
+  "$ref":"#/definitions/JSDoc"
 }
