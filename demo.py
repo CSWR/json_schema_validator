@@ -28,12 +28,13 @@ d = {"type": "integer", "maximum": 10, "exclusiveMaximum": True}
 d_schema = get_schema(d)
 print(d_schema.validate(9))
 print(d_schema.validate(10))
+print(d_schema.validate(11))
 
 
 print("---- Invalid json schema")
 try:
     get_schema({"type": 1})
-except InvalidSchemaException:
+except InvalidSchemaException as e:
     print("This is not a valid JSON Schema")
 
 try:
@@ -47,5 +48,25 @@ try:
         },
         "$ref": "#/definitions/S"
     })
-except InvalidSchemaException:
-    print("")
+except InvalidSchemaException as e:
+    print("This is a JSON Schema with circular references")
+
+print("---- Using response object")
+d2 = {
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "maxLength": 10
+        }
+    }
+}
+d2_schema = get_schema(d2)
+response = d2_schema.validate({
+    "name": "12345678901234"
+})
+if not response:
+    print("Failed on document:", response.document_pointer)
+    print(response.document_pointer.get_json())
+    print("Failed on schema:", response.schema_pointer)
+    print(response.schema_pointer.get_json())

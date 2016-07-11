@@ -53,7 +53,7 @@ class Schema:
         self.anyOf = []
         self.allOf = []
         self.oneOf = []
-        self.notThis = None
+        self._not = None
         if not self.path_is_empty():
             self.definitions[self.path] = self
         if has_key(json_schema, "type"):
@@ -132,7 +132,7 @@ class Schema:
             self.oneOf.append(self.build_child_schema(json_schema))
 
     def __build_not(self, not_this):
-        self.notThis = self.build_child_schema(not_this)
+        self._not = self.build_child_schema(not_this)
 
     def validate(self, document):
         """
@@ -258,7 +258,7 @@ class Schema:
         :return: bool.
         """
 
-        return self.notThis is not None
+        return self._not is not None
 
     def validate_not(self, document):
         """
@@ -267,8 +267,8 @@ class Schema:
         :return: Response object.
         """
 
-        if self.notThis is not None:
-            validate_not = self.notThis.validate(document)
+        if self._not is not None:
+            validate_not = self._not.validate(document)
             if not validate_not.is_valid:
                 return Response(True, None, None)
             else:
@@ -1087,7 +1087,7 @@ class StringSchema(Schema):
 
         if self.maxLength is not None:
             if self.maxLength < len(document):
-                return Response(False, JSONPointer(document, []), JSONPointer(self.whole_schema, self.build_nodes(["minLength"])))
+                return Response(False, JSONPointer(document, []), JSONPointer(self.whole_schema, self.build_nodes(["maxLength"])))
         return Response(True, None, None)
 
     def validate_pattern(self, document):
@@ -1293,7 +1293,7 @@ def get_schema(json_schema, whole_schema=None):
     """
 
     if not validate_refs(json_schema, []):
-        raise MalformedSchemaException()
+        raise CircularSchemaException()
 
     if whole_schema is None:
         meta_schema_json = get_json_from_file(PATH + os.sep + "meta_schema.json")

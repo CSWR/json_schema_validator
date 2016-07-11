@@ -103,6 +103,9 @@ class JSONPointer:
             return True
         return False
 
+    def __str__(self):
+        return "/".join(['#'] + self.nodes)
+
 
 class Response:
     """

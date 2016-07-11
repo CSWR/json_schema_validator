@@ -2,5 +2,5 @@ class InvalidSchemaException(BaseException):
     pass
 
 
-class MalformedSchemaException(InvalidSchemaException):
+class CircularSchemaException(InvalidSchemaException):
     pass
