@@ -1,0 +1,86 @@
+[
+  {
+    "description": "Json schemas with circular reference.s",
+    "schema": {},
+    "tests": [
+      {
+        "description": "definition referencing itself.",
+        "data": {
+          "definitions": {
+            "S": {
+                "$ref": "#/definitions/S"
+            }
+          },
+          "$ref": "#/definitions/S"
+        },
+        "valid": false
+      },
+      {
+        "description": "definition referencing itself inside not.",
+        "data": {
+          "definitions": {
+            "S": {
+              "not": {
+                "$ref": "#/definitions/S"
+              }
+            }
+          },
+          "$ref": "#/definitions/S"
+        },
+        "valid": false
+      },
+      {
+        "description": "definition referencing itself inside allOf",
+        "data": {
+          "definitions": {
+            "S": {
+              "allOf": [
+                {"$ref": "#/definitions/A"},
+                {"$ref": "#/definitions/S"},
+                {"$ref": "#/definitions/B"}
+              ]
+            },
+            "A": {
+              "enum": [
+                "a"
+              ]
+            },
+            "B": {
+              "enum": [
+                "b"
+              ]
+            }
+          },
+          "$ref": "#/definitions/S"
+        },
+        "valid": false
+      },
+      {
+        "description": "definition referencing itself inside anyOf",
+        "data": {
+          "definitions": {
+            "S": {
+              "anyOf": [
+                {"$ref": "#/definitions/A"},
+                {"$ref": "#/definitions/S"},
+                {"$ref": "#/definitions/B"}
+              ]
+            },
+            "A": {
+              "enum": [
+                "a"
+              ]
+            },
+            "B": {
+              "enum": [
+                "b"
+              ]
+            }
+          },
+          "$ref": "#/definitions/S"
+        },
+        "valid": false
+      }
+    ]
+  }
+]
